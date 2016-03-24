@@ -4,6 +4,7 @@
   role_dir: "{{ lookup('pipe','pwd')|dirname }}"
 
   option_install_webmin: true
+  option_install_webmin_prerequisites: false
 
   option_install_mailhog: true
 
@@ -13,4 +14,3 @@
 
   php_xdebug_version: 2.2.4
   apache_mode: worker # use prefork or worker variables
-
