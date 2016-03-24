@@ -7,6 +7,10 @@
 
   option_install_mailhog: true
 
+  option_install_xdebug: false
+
   mailhog_version: 0.1.6
 
+  php_xdebug_version: 2.2.4
+  apache_mode: worker # use prefork or worker variables
 

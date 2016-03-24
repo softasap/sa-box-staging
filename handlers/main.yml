@@ -1,2 +1,13 @@
 ---
 # handlers file for sa-box-staging
+
+  shell: service php5-fpm restart
+
+  - name: restart apache2
+    service: name=apache2 state=restarted
+    sudo: yes
+
+  - name: restart fpm
+    service: name=php5-fpm state=restarted
+    sudo: yes
+

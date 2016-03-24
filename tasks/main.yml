@@ -5,3 +5,6 @@
 
   - include: tasks_mailhog.yml
     when: option_install_mailhog
+
+  - include: task_php_xdebug.yml
+    when: option_install_xdebug
