@@ -1,0 +1,9 @@
+---
+# defaults file for sa-box-staging
+
+  role_dir: "{{ lookup('pipe','pwd')|dirname }}"
+
+  options_install_webmin: true
+
+  options_install_mailhog: true
+
