@@ -3,7 +3,10 @@
 
   role_dir: "{{ lookup('pipe','pwd')|dirname }}"
 
-  options_install_webmin: true
+  option_install_webmin: true
 
-  options_install_mailhog: true
+  option_install_mailhog: true
+
+  mailhog_version: 0.1.6
+
 
