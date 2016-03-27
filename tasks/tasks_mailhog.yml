@@ -1,19 +1,24 @@
 ---  # https://github.com/mailhog/MailHog
+  - name: Mailhog | Check if present
+    command: test -x /usr/local/bin/MailHog
+    ignore_errors: yes
+    register: mailhog_present
+    tags: mailhog
 
   - name: Mailhog | Download distribution
     get_url: url=http://github.com/mailhog/MailHog/releases/download/v{{mailhog_version}}/MailHog_linux_amd64 dest=/usr/local/bin/MailHog mode=0755
-    when: ansible_system == "Linux"
-    sudo: yes
+    when: mailhog_present|failed
+    become: yes
     tags: mailhog
 
   - name: Mailhog | Create upstart
     template: src={{role_dir}}/templates/mailhog/mailhog.conf.j2 dest=/etc/init/mailhog.conf mode=0644
-    when: ansible_system == "Linux"
-    sudo: yes
+    when: mailhog_present|failed
+    become: yes
     tags: mailhog
 
   - name: Mailhog | Restart
     service: name=mailhog state=restarted
-    when: ansible_system == "Linux"
-    sudo: yes
+    when: mailhog_present|failed
+    become: yes
     tags: mailhog

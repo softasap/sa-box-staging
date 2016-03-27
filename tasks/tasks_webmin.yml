@@ -1,7 +1,16 @@
 ---
+  - name: Webmin | Check if present
+    command: test -x /usr/share/webmin/webmin
+    ignore_errors: yes
+    register: webmin_present
+    tags:
+        -webmin
+        -setup
+
   - name: Webmin | Add apt repository
     apt_repository: repo='deb http://download.webmin.com/download/repository sarge contrib' update_cache=yes
     become: yes
+    when: webmin_present|failed
     tags:
         -webmin
         -setup
@@ -9,6 +18,7 @@
   - name: Webmin | Add apt repository mirror
     apt_repository: repo='deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' update_cache=yes
     become: yes
+    when: webmin_present|failed
     tags:
         -webmin
         -setup
@@ -16,10 +26,10 @@
   - name: Webmin | Add Webmin key
     apt_key: url='http://www.webmin.com/jcameron-key.asc' state=present
     become: yes
+    when: webmin_present|failed
     tags:
         -webmin
         -setup
-
 
   - name: Webmin | Install prerequisites
     apt:  pkg={{ item }} state=installed
@@ -33,13 +43,17 @@
       - libio-pty-perl
       - apt-show-versions
       - python
-    when: option_install_webmin_prerequisites  
+    when: option_install_webmin_prerequisites and webmin_present|failed
     tags:
         -webmin
         -setup
 
-
   - name: Webmin | Install webmin
     apt: pkg={{ item }} state=present update_cache=yes
+    become: yes
     with_items:
      - webmin
+    when: webmin_present|failed
+    tags:
+        -webmin
+        -setup
